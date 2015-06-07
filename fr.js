@@ -31,6 +31,18 @@ SOFTWARE.
  */
 var VehicleRegistrationNumberFr = function(){
 
+    this.isNew = function(rn){
+        // TODO si premier groupe est SS ou WW, retourner FAUX
+        // TODO si le dernier groupe est SS retourner FAUX
+        // TODO si les groupes de lettres comporte au moins un I, O ou U, retourner FAUX
+        return rn.match(/^([a-hj-np-tv-z]{2})(|\s|-)([0-9]{3})(|\s|-)([a-hj-np-tv-z]{2})$/i);
+    };
+
+
+
+    this.isOld = function(rn){
+        return rn.match(/^([0-9]{1,4})(|\s|-|\.|\t)([a-hj-np-tv-z]{2,3})(|\s|-|\.|\t)(97[1-6]|0[1-9]|[1-8][0-9]|9[1-5]|2[ab])$/i);
+    };
 
 
 
@@ -42,11 +54,9 @@ var VehicleRegistrationNumberFr = function(){
      * @public
      * @return {Boolean}
      * @param {String} rn Registration number to test.
-     * @throws {String} Exception if registration number does not follow some rules.
      */
     this.check = function(rn){
-        // TODO
-        return true;
+        return this.isOld(rn) !== null || this.isNew(rn) !== null;
     };
 
 

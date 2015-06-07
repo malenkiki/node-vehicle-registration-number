@@ -27,6 +27,7 @@ var assert = require("assert")
 
 var fr = new vrn({country: "fr"});
 
+var assert = require('chai').assert;
 
 describe('Checking loading country', function(){
     it('should success for fr', function(){
@@ -48,57 +49,57 @@ describe('Checking basics', function(){
 
 describe('Checking old french registration numbers', function(){
     
-    it('should throw error if its first group contains letters', function(){
-        assert.throws(function(){fr.check('25I CMN 36');});
-        assert.throws(function(){fr.check('2ZI CMN 36');});
-        assert.throws(function(){fr.check('ZZI CMN 36');});
-        assert.throws(function(){fr.check('25I-CMN-36');});
-        assert.throws(function(){fr.check('2ZI-CMN-36');});
-        assert.throws(function(){fr.check('ZZI-CMN-36');});
-        assert.throws(function(){fr.check('25I.CMN.36');});
-        assert.throws(function(){fr.check('2ZI.CMN.36');});
-        assert.throws(function(){fr.check('ZZI.CMN.36');});
+    it('should fail if its first group contains letters', function(){
+        assert.isFalse(fr.check('25I CMN 36'));
+        assert.isFalse(fr.check('2ZI CMN 36'));
+        assert.isFalse(fr.check('ZZI CMN 36'));
+        assert.isFalse(fr.check('25I-CMN-36'));
+        assert.isFalse(fr.check('2ZI-CMN-36'));
+        assert.isFalse(fr.check('ZZI-CMN-36'));
+        assert.isFalse(fr.check('25I.CMN.36'));
+        assert.isFalse(fr.check('2ZI.CMN.36'));
+        assert.isFalse(fr.check('ZZI.CMN.36'));
     });
     
-    it('should throw error if its second group contains digits', function(){
-        assert.throws(function(){fr.check('251 CM5 36');});
-        assert.throws(function(){fr.check('251 C45 36');});
-        assert.throws(function(){fr.check('251 245 36');});
-        assert.throws(function(){fr.check('251-CM5-36');});
-        assert.throws(function(){fr.check('251-C45-36');});
-        assert.throws(function(){fr.check('251-245-36');});
-        assert.throws(function(){fr.check('251.CM5.36');});
-        assert.throws(function(){fr.check('251.C45.36');});
-        assert.throws(function(){fr.check('251.245.36');});
+    it('should fail if its second group contains digits', function(){
+        assert.isFalse(fr.check('251 CM5 36'));
+        assert.isFalse(fr.check('251 C45 36'));
+        assert.isFalse(fr.check('251 245 36'));
+        assert.isFalse(fr.check('251-CM5-36'));
+        assert.isFalse(fr.check('251-C45-36'));
+        assert.isFalse(fr.check('251-245-36'));
+        assert.isFalse(fr.check('251.CM5.36'));
+        assert.isFalse(fr.check('251.C45.36'));
+        assert.isFalse(fr.check('251.245.36'));
     });
 
 
-    it('should throw error if its last group contains letters', function(){
-        assert.throws(function(){fr.check("251 CMN 3G");});
-        assert.throws(function(){fr.check("251 CMN EG");});
-        assert.throws(function(){fr.check("251 CMN 92I");});
-        assert.throws(function(){fr.check("251 CMN 9ZI");});
-        assert.throws(function(){fr.check("251 CMN GZI");});
-        assert.throws(function(){fr.check("251-CMN-3G");});
-        assert.throws(function(){fr.check("251-CMN-EG");});
-        assert.throws(function(){fr.check("251-CMN-92I");});
-        assert.throws(function(){fr.check("251-CMN-9ZI");});
-        assert.throws(function(){fr.check("251-CMN-GZI");});
-        assert.throws(function(){fr.check("251.CMN.3G");});
-        assert.throws(function(){fr.check("251.CMN.EG");});
-        assert.throws(function(){fr.check("251.CMN.92I");});
-        assert.throws(function(){fr.check("251.CMN.9ZI");});
-        assert.throws(function(){fr.check("251.CMN.GZI");});
+    it('should fail if its last group contains letters', function(){
+        assert.isFalse(fr.check("251 CMN 3G"));
+        assert.isFalse(fr.check("251 CMN EG"));
+        assert.isFalse(fr.check("251 CMN 92I"));
+        assert.isFalse(fr.check("251 CMN 9ZI"));
+        assert.isFalse(fr.check("251 CMN GZI"));
+        assert.isFalse(fr.check("251-CMN-3G"));
+        assert.isFalse(fr.check("251-CMN-EG"));
+        assert.isFalse(fr.check("251-CMN-92I"));
+        assert.isFalse(fr.check("251-CMN-9ZI"));
+        assert.isFalse(fr.check("251-CMN-GZI"));
+        assert.isFalse(fr.check("251.CMN.3G"));
+        assert.isFalse(fr.check("251.CMN.EG"));
+        assert.isFalse(fr.check("251.CMN.92I"));
+        assert.isFalse(fr.check("251.CMN.9ZI"));
+        assert.isFalse(fr.check("251.CMN.GZI"));
     });
     
 
-    it('should not throw error if its last group is 2A or 2B, Corsica special code', function(){
-        assert.doesNotThrow(function(){fr.check("251 CMN 2A");});
-        assert.doesNotThrow(function(){fr.check("251 CMN 2B");});
-        assert.doesNotThrow(function(){fr.check("251-CMN-2A");});
-        assert.doesNotThrow(function(){fr.check("251-CMN-2B");});
-        assert.doesNotThrow(function(){fr.check("251.CMN.2A");});
-        assert.doesNotThrow(function(){fr.check("251.CMN.2B");});
+    it('should not fail if its last group is 2A or 2B, Corsica special code', function(){
+        assert.isTrue(fr.check("251 CMN 2A"));
+        assert.isTrue(fr.check("251 CMN 2B"));
+        assert.isTrue(fr.check("251-CMN-2A"));
+        assert.isTrue(fr.check("251-CMN-2B"));
+        assert.isTrue(fr.check("251.CMN.2A"));
+        assert.isTrue(fr.check("251.CMN.2B"));
     });
     
 
@@ -125,7 +126,7 @@ describe('Checking old french registration numbers', function(){
     });
 
     it('should return true if registration number is valid using tabs', function(){
-        assert.isTrue(fr.check("251.\tCMN\t36"));
+        assert.isTrue(fr.check("251\tCMN\t36"));
         assert.isTrue(fr.check("1234\tBSD\t44"));
         assert.isTrue(fr.check("945\tBZ\t01"));
     });
