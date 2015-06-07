@@ -61,6 +61,18 @@ describe('Checking old french registration numbers', function(){
         assert.isFalse(fr.check('ZZI.CMN.36'));
     });
     
+    it('should fail if its second group contains letters I, O or U', function(){
+        assert.isFalse(fr.check('251 CMI 36'));
+        assert.isFalse(fr.check('251 CMU 36'));
+        assert.isFalse(fr.check('251 CMO 36'));
+        assert.isFalse(fr.check('251-CMI-36'));
+        assert.isFalse(fr.check('251-CMU-36'));
+        assert.isFalse(fr.check('251-CMO-36'));
+        assert.isFalse(fr.check('251.CMI.36'));
+        assert.isFalse(fr.check('251.CMU.36'));
+        assert.isFalse(fr.check('251.CMO.36'));
+    });
+    
     it('should fail if its second group contains digits', function(){
         assert.isFalse(fr.check('251 CM5 36'));
         assert.isFalse(fr.check('251 C45 36'));
@@ -101,9 +113,80 @@ describe('Checking old french registration numbers', function(){
         assert.isTrue(fr.check("251.CMN.2A"));
         assert.isTrue(fr.check("251.CMN.2B"));
     });
-    
 
-    it('should return true if registration number is valid using spaces', function(){
+
+    it('should fail if its first group has more than 4 digits', function(){
+        assert.isFalse(fr.check('12345 CMN 36'));
+    });
+
+    it('should fail if its second group has more than 3 letters', function(){
+        assert.isFalse(fr.check('1234 ABCD 36'));
+    });
+
+    it('should fail if its second group has less than 2 letters', function(){
+        assert.isFalse(fr.check('1234 A 36'));
+    });
+    
+    it('should fail if last group has more than 2 digits', function(){
+        assert.isFalse(fr.check('123 ABC 456'));
+    });
+    
+    it('should fail if last group has less than 2 digits', function(){
+        assert.isFalse(fr.check('123 ABC 4'));
+    });
+    
+    
+    it('should success if last group has more than 3 digits and is in [971,976] range', function(){
+        assert.isTrue(fr.check('123 ABC 971'));
+        assert.isTrue(fr.check('123 ABC 972'));
+        assert.isTrue(fr.check('123 ABC 973'));
+        assert.isTrue(fr.check('123 ABC 974'));
+        assert.isTrue(fr.check('123 ABC 975'));
+        assert.isTrue(fr.check('123 ABC 976'));
+    });
+    
+    it('should fail if last group has 3 digits starting with 97 and higher than 976', function(){
+        assert.isFalse(fr.check('123 ABC 977'));
+        assert.isFalse(fr.check('123 ABC 978'));
+        assert.isFalse(fr.check('123 ABC 979'));
+    });
+
+    it('should fail if last group is 90', function(){
+        assert.isFalse(fr.check('123 ABC 90'));
+    });
+
+    it('should fail if last group has 2 digits and is higher then 95', function(){
+        assert.isFalse(fr.check('123 ABC 96'));
+        assert.isFalse(fr.check('123 ABC 97'));
+        assert.isFalse(fr.check('123 ABC 98'));
+        assert.isFalse(fr.check('123 ABC 99'));
+    });
+
+    it('should success if last group has 2 digits, starting with 9 in the range [91,95]', function(){
+        assert.isTrue(fr.check('123 ABC 91'));
+        assert.isTrue(fr.check('123 ABC 92'));
+        assert.isTrue(fr.check('123 ABC 93'));
+        assert.isTrue(fr.check('123 ABC 94'));
+        assert.isTrue(fr.check('123 ABC 95'));
+    });
+
+    it('should success if last group has one meaning digit with leading 0', function(){
+        assert.isTrue(fr.check('123 AB 01'));
+        assert.isTrue(fr.check('123 AB 02'));
+        assert.isTrue(fr.check('123 AB 03'));
+        assert.isTrue(fr.check('123 AB 04'));
+        assert.isTrue(fr.check('123 AB 05'));
+        assert.isTrue(fr.check('123 AB 06'));
+        assert.isTrue(fr.check('123 AB 07'));
+        assert.isTrue(fr.check('123 AB 08'));
+        assert.isTrue(fr.check('123 AB 09'));
+    });
+
+    it('should fail if last group has 2 zeros', function(){
+        assert.isFalse(fr.check('123 AB 00'));
+    });
+
+    it('should success if registration number is valid using spaces', function(){
         assert.isTrue(fr.check('251 CMN 36'));
         assert.isTrue(fr.check('1234 BSD 44'));
         assert.isTrue(fr.check('945 BZ 01'));
@@ -111,7 +194,7 @@ describe('Checking old french registration numbers', function(){
     
     
 
-    it('should return true if registration number is valid using hyphen', function(){
+    it('should success if registration number is valid using hyphen', function(){
         assert.isTrue(fr.check('251-CMN-36'));
         assert.isTrue(fr.check('1234-BSD-44'));
         assert.isTrue(fr.check('945-BZ-01'));
@@ -119,13 +202,13 @@ describe('Checking old french registration numbers', function(){
     
     
 
-    it('should return true if registration number is valid using dot', function(){
+    it('should success if registration number is valid using dot', function(){
         assert.isTrue(fr.check('251.CMN.36'));
         assert.isTrue(fr.check('1234.BSD.44'));
         assert.isTrue(fr.check('945.BZ.01'));
     });
 
-    it('should return true if registration number is valid using tabs', function(){
+    it('should success if registration number is valid using tabs', function(){
         assert.isTrue(fr.check("251\tCMN\t36"));
         assert.isTrue(fr.check("1234\tBSD\t44"));
         assert.isTrue(fr.check("945\tBZ\t01"));
@@ -133,7 +216,7 @@ describe('Checking old french registration numbers', function(){
     
     
 
-    it('should return true if registration number is valid without separators', function(){
+    it('should success if registration number is valid without separators', function(){
         assert.isTrue(fr.check('251CMN36'));
         assert.isTrue(fr.check('1234BSD44'));
         assert.isTrue(fr.check('945BZ01'));
@@ -141,8 +224,118 @@ describe('Checking old french registration numbers', function(){
 
 });
 
+
+
+
 describe('Checking new french registration numbers', function(){
+    it('should fail if first group has two letters "SS"', function(){
+        assert.isFalse(fr.check('SS-123-AB'));
+    });
+    
+    it('should fail if last group has two letters "SS"', function(){
+        assert.isFalse(fr.check('AB-123-SS'));
+    });
+    
+    
+    it('should fail if first group has two letters "WW"', function(){
+        assert.isFalse(fr.check('WW-123-AB'));
+    });
+    
+    it('should fail if first group has at least one of the followings letters: "I", "O" or "U"', function(){
+        assert.isFalse(fr.check('AI-123-AB'));
+        assert.isFalse(fr.check('IA-123-AB'));
+        assert.isFalse(fr.check('II-123-AB'));
+        assert.isFalse(fr.check('AO-123-AB'));
+        assert.isFalse(fr.check('OA-123-AB'));
+        assert.isFalse(fr.check('OO-123-AB'));
+        assert.isFalse(fr.check('AU-123-AB'));
+        assert.isFalse(fr.check('UA-123-AB'));
+        assert.isFalse(fr.check('UU-123-AB'));
+    });
+
+    it('should fail if last group has at least one of the followings letters: "I", "O" or "U"', function(){
+        assert.isFalse(fr.check('AB-123-AI'));
+        assert.isFalse(fr.check('AB-123-IA'));
+        assert.isFalse(fr.check('AB-123-II'));
+        assert.isFalse(fr.check('AB-123-AO'));
+        assert.isFalse(fr.check('AB-123-OA'));
+        assert.isFalse(fr.check('AB-123-OO'));
+        assert.isFalse(fr.check('AB-123-AU'));
+        assert.isFalse(fr.check('AB-123-UA'));
+        assert.isFalse(fr.check('AB-123-UU'));
+    });
+
+    it('should fail if first group has digit', function(){
+        assert.isFalse(fr.check('2B-123-CD'));
+        assert.isFalse(fr.check('B2-123-CD'));
+        assert.isFalse(fr.check('12-123-CD'));
+    });
+    
+    it('should fail if middle group has at least one character that is not a digit', function(){
+        assert.isFalse(fr.check('AB-I23-CD'));
+        assert.isFalse(fr.check('AB-IZ3-CD'));
+        assert.isFalse(fr.check('AB-IZE-CD'));
+    });
+    
+
+    it('should fail if last group has digit', function(){
+        assert.isFalse(fr.check('CD-123-2B'));
+        assert.isFalse(fr.check('CD-123-B2'));
+        assert.isFalse(fr.check('CD-123-12'));
+    });
+
+    it('should fail if first group has no 2 letters', function(){
+        assert.isFalse(fr.check('ABC-123-CD'));
+        assert.isFalse(fr.check('A-123-CD'));
+    });
+
+    it('should fail if second group has no 3 digits', function(){
+        assert.isFalse(fr.check('AB-1234-CD'));
+        assert.isFalse(fr.check('AB-12-CD'));
+    });
+    
+    it('should fail if third group has no 2 letters', function(){
+        assert.isFalse(fr.check('AB-123-CDE'));
+        assert.isFalse(fr.check('AB-123-C'));
+    });
+
+    it('should fail if first group does not exist', function(){
+        assert.isFalse(fr.check('-123-CD'));
+        assert.isFalse(fr.check('123-CD'));
+    });
+
+    it('should fail if second group does not exist', function(){
+        assert.isFalse(fr.check('AB-CD'));
+    });
+
+    it('should fail if third group does not exist', function(){
+        assert.isFalse(fr.check('AB-123-'));
+        assert.isFalse(fr.check('AB-123'));
+    });
+
+    it('should success if registration number is in lower cases and uses hyphens as separator', function(){
+        assert.isTrue(fr.check('ab-123-cd'));
+    });
+
+    it('should success if registration number uses spaces as separator', function(){
+        assert.isTrue(fr.check('AB 123 CD'));
+    });
+
+    it('should success if registration number uses dots as separator', function(){
+        assert.isTrue(fr.check('AB.123.CD'));
+    });
+
+    it('should success if registration number uses tabs as separator', function(){
+        assert.isTrue(fr.check('AB\t123\tCD'));
+    });
+
+    it('should success if registration number does not use separator', function(){
+        assert.isTrue(fr.check('AB123CD'));
+    });
 });
+
+
+
 
 describe('Formating old french registration numbers', function(){
 });
