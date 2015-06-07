@@ -1,0 +1,33 @@
+{
+  "name": "vehicle-registration-number",
+  "version": "0.0.1",
+  "description": "Format and check vehicle registration numbers, for EU countries in first development step.",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "keywords": [
+    "vehicle",
+    "registration",
+    "number",
+    "European Union",
+    "France",
+    "formating",
+    "validating"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/malenkiki/node-vehicle-registration-number.git"
+  },
+  "bugs": {
+    "url": "https://github.com/malenkiki/node-vehicle-registration-number/issues"
+  },
+  "engines": {
+    "node": "*"
+  },
+  "devDependencies": {
+    "mocha": "2.2.4"
+  },
+  "author": "Michel Petit <petit.michel@gmail.com>",
+  "license": "MIT"
+}
