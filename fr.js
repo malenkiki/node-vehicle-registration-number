@@ -87,8 +87,20 @@ var VehicleRegistrationNumberFr = function(){
      * @param {String} rn Registration number to test.
      */
     this.format = function(rn){
-        // TODO
-        return rn;
+        if(this.isNew(rn)){
+            var arr = rn
+                .toUpperCase()
+                .replace(/[^a-z0-9]+/ig, '')
+                .match(/^([a-z]{2})([0-9]{3})([a-z]{2})$/i);
+            return arr[1] + '-' + arr[2] + '-' + arr[3];
+        } else if(this.isOld(rn)){
+            
+            var arr = rn
+                .toUpperCase()
+                .replace(/[^a-z0-9]+/ig, '')
+                .match(/^([0-9]{1,4})([a-z]{2,3})([0-9]{2,3}|2[ab]{1})$/i);
+            return arr[1] + ' ' + arr[2] + ' ' + arr[3];
+        }
     };
 
 

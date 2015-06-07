@@ -33,6 +33,7 @@ SOFTWARE.
 function VehicleRegistrationNumber(opt){
 
 
+    this.code = '';
     this.country = '';
 
 
@@ -46,6 +47,7 @@ function VehicleRegistrationNumber(opt){
     this.init = function(opt){
         // TODO check valid countries
         if(opt && typeof(opt.country) === 'string'){
+            this.code = opt.country;
             this.country = this.loadCountry(opt.country);
         }
     };
@@ -93,7 +95,11 @@ function VehicleRegistrationNumber(opt){
      * @throws {String} Exception if registration is empty or is not a string.
      */
     this.format = function(rn){
-        return this.country.format(rn);
+        if(this.country.check(rn)){
+            return this.country.format(rn);
+        } else {
+            throw 'Invalid ' + this.code.toUpperCase() + ' registration number';
+        }
     };
 
 

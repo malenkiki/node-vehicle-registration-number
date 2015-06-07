@@ -359,9 +359,79 @@ describe('Testing FR module', function(){
 
 
     describe('Formating old french registration numbers', function(){
+        it('should throw exception if registration number validation fails', function(){
+            assert.throw(function(){fr.format('1234 CMN 367');}, 'Invalid FR registration number');
+            assert.throw(function(){fr.format('1234 CMO 36');}, 'Invalid FR registration number');
+            assert.throw(function(){fr.format('1234 CMI 36');}, 'Invalid FR registration number');
+            assert.throw(function(){fr.format('1234 CMU 36');}, 'Invalid FR registration number');
+            assert.throw(function(){fr.format('12345 CMO 36');}, 'Invalid FR registration number');
+        });
+
+
+        it('should return string if registration is valid', function(){
+            assert.isString(fr.format('123CMN36'));
+            assert.isString(fr.format('123CMN975'));
+            assert.isString(fr.format('123CMN2B'));
+        });
+
+
+        it('should use space separator as valid returned string', function(){
+            console.log();
+            assert.strictEqual(fr.format('123CMN36'), '123 CMN 36');
+            assert.strictEqual(fr.format('123.CMN.36'), '123 CMN 36');
+            assert.strictEqual(fr.format('123-CMN-36'), '123 CMN 36');
+            assert.strictEqual(fr.format('123\tCMN\t36'), '123 CMN 36');
+        });
+
+
+        it('should uppercase string if it is in lowercase', function(){
+            assert.strictEqual(fr.format('123cmn36'), '123 CMN 36');
+            assert.strictEqual(fr.format('123cmn975'), '123 CMN 975');
+            assert.strictEqual(fr.format('123cmn2b'), '123 CMN 2B');
+        });
     });
 
     describe('Formating new french registration numbers', function(){
+        it('should throw exception if registration number validation fails', function(){
+            assert.throw(function(){fr.format('ABC-123-AZ');}, 'Invalid FR registration number');
+            assert.throw(function(){fr.format('A-123-AZ');}, 'Invalid FR registration number');
+            assert.throw(function(){fr.format('AB-1234-AZ');}, 'Invalid FR registration number');
+            assert.throw(function(){fr.format('AB-12-AZ');}, 'Invalid FR registration number');
+            assert.throw(function(){fr.format('AB-123-AZE');}, 'Invalid FR registration number');
+            assert.throw(function(){fr.format('AB-123-A');}, 'Invalid FR registration number');
+            assert.throw(function(){fr.format('SS-123-AB');}, 'Invalid FR registration number');
+            assert.throw(function(){fr.format('WW-123-AB');}, 'Invalid FR registration number');
+            assert.throw(function(){fr.format('AB-123-SS');}, 'Invalid FR registration number');
+            assert.throw(function(){fr.format('AI-123-CD');}, 'Invalid FR registration number');
+            assert.throw(function(){fr.format('AO-123-CD');}, 'Invalid FR registration number');
+            assert.throw(function(){fr.format('AU-123-CD');}, 'Invalid FR registration number');
+            assert.throw(function(){fr.format('AB-123-CI');}, 'Invalid FR registration number');
+            assert.throw(function(){fr.format('AB-123-CO');}, 'Invalid FR registration number');
+            assert.throw(function(){fr.format('AB-123-CU');}, 'Invalid FR registration number');
+        });
+
+
+        it('should return string if registration is valid', function(){
+            assert.isString(fr.format('AA123BB'));
+            assert.isString(fr.format('ZZ999ZZ'));
+        });
+
+        it('should return string with hyphen as separator if registration number is valid', function(){
+            assert.strictEqual(fr.format('AB123CD'), 'AB-123-CD');
+            assert.strictEqual(fr.format('AB.123.CD'), 'AB-123-CD');
+            assert.strictEqual(fr.format('AB-123-CD'), 'AB-123-CD');
+            assert.strictEqual(fr.format('AB 123 CD'), 'AB-123-CD');
+            assert.strictEqual(fr.format('AB\t123\tCD'), 'AB-123-CD');
+        });
+
+        it('should uppercase string if it is in lowercase', function(){
+            assert.strictEqual(fr.format('ab123bc'), 'AB-123-BC');
+            assert.strictEqual(fr.format('ab.123.bc'), 'AB-123-BC');
+            assert.strictEqual(fr.format('ab-123-bc'), 'AB-123-BC');
+            assert.strictEqual(fr.format('ab 123 bc'), 'AB-123-BC');
+            assert.strictEqual(fr.format('ab\t123\tbc'), 'AB-123-BC');
+        });
+
     });
 });
 
