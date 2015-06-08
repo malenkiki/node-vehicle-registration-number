@@ -376,7 +376,6 @@ describe('Testing FR module', function(){
 
 
         it('should use space separator as valid returned string', function(){
-            console.log();
             assert.strictEqual(fr.format('123CMN36'), '123 CMN 36');
             assert.strictEqual(fr.format('123.CMN.36'), '123 CMN 36');
             assert.strictEqual(fr.format('123-CMN-36'), '123 CMN 36');
