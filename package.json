@@ -1,6 +1,6 @@
 {
   "name": "vehicle-registration-number",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Format and check vehicle registration numbers, for EU countries in first development step.",
   "main": "index.js",
   "scripts": {
