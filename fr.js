@@ -54,7 +54,7 @@ var VehicleRegistrationNumberFr = function(){
 
 
     this.isOld = function(rn){
-        var result = rn.match(/^([0-9]{1,4})(|\s|-|\.|\t)([a-hj-np-tv-z]{2,3})(|\s|-|\.|\t)(97[1-6]|0[1-9]|[1-8][0-9]|9[1-5]|2[ab])$/i);
+        var result = rn.match(/^([0-9]{1,4})(|\s|-|\.|\t)([a-hj-np-tv-z]{2,3})(|\s|-|\.|\t)(97[1-6]|0[1-9]|[1-8][0-9]|9[0-5]|2[ab])$/i);
 
         return result !== null;
     };
