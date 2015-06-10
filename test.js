@@ -26,6 +26,7 @@ var vrn = require('./index.js');
 var assert = require("assert")
 
 var fr = new vrn({country: "fr"});
+var gr = new vrn({country: "gr"});
 
 var assert = require('chai').assert;
 
@@ -36,17 +37,25 @@ describe('Testing general behavior', function(){
         it('should success for fr', function(){
             assert(new vrn({country: "fr"}));
         });
+        it('should success for gr', function(){
+            assert(new vrn({country: "gr"}));
+        });
     });
 
     describe('Checking basics', function(){
         it('should throw error if registration nnumber is void', function(){
             assert.throws(function(){fr.check('')});
+            assert.throws(function(){gr.check('')});
         });
         it('should throw error if registration nnumber is not a string', function(){
             assert.throws(function(){fr.check(42)});
             assert.throws(function(){fr.check(null)});
             assert.throws(function(){fr.check({})});
             assert.throws(function(){fr.check([])});
+            assert.throws(function(){gr.check(42)});
+            assert.throws(function(){gr.check(null)});
+            assert.throws(function(){gr.check({})});
+            assert.throws(function(){gr.check([])});
         });
     });
 });
@@ -435,3 +444,36 @@ describe('Testing FR module', function(){
 });
 
 
+describe('Testing GR module', function(){
+    describe('Checking greek registration numbers', function(){
+
+        it('should success if registration number is classic pattern', function(){
+            assert.isBoolean(gr.check('XZH-339')); // latin input
+            assert.isBoolean(gr.check('ΧΖΗ-339')); // greek input
+        });
+
+    });
+
+
+    describe('Formating greek registration numbers', function(){
+
+        it('should have output as string if input is valid', function(){
+            assert.isString(gr.format('XZH-339'));
+        });
+
+        it('should have greek letters as output if input is in latin letters', function(){
+            assert.notStrictEqual(
+            gr.format('XZH-339'), // latin
+            'XZH-339' // latin
+            );
+        });
+        
+        it('should have greek letters as output if input is in greek letters', function(){
+            assert.strictEqual(
+            gr.format('ΧΖΗ-339'), // greek
+            'ΧΖΗ-339' // greek
+            );
+        });
+
+    });
+});
