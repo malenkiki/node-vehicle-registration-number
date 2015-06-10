@@ -166,10 +166,6 @@ describe('Testing FR module', function(){
             assert.isFalse(fr.check('123 ABC 979'));
         });
 
-        it('should fail if last group is 90', function(){
-            assert.isFalse(fr.check('123 ABC 90'));
-        });
-
         it('should fail if last group has 2 digits and is higher then 95', function(){
             assert.isFalse(fr.check('123 ABC 96'));
             assert.isFalse(fr.check('123 ABC 97'));
@@ -177,7 +173,8 @@ describe('Testing FR module', function(){
             assert.isFalse(fr.check('123 ABC 99'));
         });
 
-        it('should success if last group has 2 digits, starting with 9 in the range [91,95]', function(){
+        it('should success if last group has 2 digits, starting with 9 in the range [90,95]', function(){
+            assert.isTrue(fr.check('123 ABC 90'));
             assert.isTrue(fr.check('123 ABC 91'));
             assert.isTrue(fr.check('123 ABC 92'));
             assert.isTrue(fr.check('123 ABC 93'));
@@ -200,6 +197,11 @@ describe('Testing FR module', function(){
         it('should fail if last group has 2 zeros', function(){
             assert.isFalse(fr.check('123 AB 00'));
         });
+        
+        it('should fail if last group has 3 zeros', function(){
+            assert.isFalse(fr.check('123 AB 000'));
+        });
+
 
         it('should success if registration number is valid using spaces', function(){
             assert.isTrue(fr.check('251 CMN 36'));
